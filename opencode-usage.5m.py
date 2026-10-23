@@ -2,7 +2,7 @@
 # <xbar.title>OpenCode Usage</xbar.title>
 # <xbar.desc>Menu bar quota widget for OpenCode: shows the Go plan (5h / weekly / monthly) as a segmented meter, or detects a Zen pay-as-you-go account. Seven languages, multiple named keys, low-usage notification; everything is set from the menu.</xbar.desc>
 # <xbar.author>luyi</xbar.author>
-# <xbar.version>2.5.0</xbar.version>
+# <xbar.version>2.5.1</xbar.version>
 # <xbar.dependencies>python3,Pillow</xbar.dependencies>
 # <swiftbar.hideAbout>true</swiftbar.hideAbout>
 # <swiftbar.hideRunInTerminal>true</swiftbar.hideRunInTerminal>
@@ -66,14 +66,8 @@ DATA_DIR = os.environ.get("SWIFTBAR_PLUGIN_DATA_PATH") or \
 CACHE_PATH = os.path.join(DATA_DIR, "last-usage.json")
 NOTIFY_PATH = os.path.join(DATA_DIR, "notified.json")
 
-# Go plan quota windows: (json key, cap in USD). The caps are the published Go limits
-# ($12 per 5h / $30 per week / $60 per month); the API itself only returns a percentage,
-# so a Go Plus or per-model limit won't match these — hence the "≈" in the caption.
-WINDOWS = [
-    ("rolling", 12),
-    ("weekly", 30),
-    ("monthly", 60),
-]
+# Go plan quota windows, in the order they appear in the menu.
+WINDOWS = ["rolling", "weekly", "monthly"]
 
 MONO = "Menlo"
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -191,13 +185,12 @@ def ensure_pil():
 STRINGS = {
     "zh": {
         "win_rolling": "5 小时", "win_weekly": "本周", "win_monthly": "本月",
-        "renews": "续费 {date} · ≈${limits}", "cap": "上限 ≈${limits}",
+        "renews": "续费 {date}",
         "resets": "{eta}后重置", "pace_ahead": "进度偏快",
         "stale": "读取失败，下面是 {age}前的数据", "stale_generic": "读取失败，下面是上次的数据",
         "notify_title": "OpenCode · {window}", "notify_body": "已用 {pct}%，{eta}后重置",
         "notify_body_short": "已用 {pct}%",
-        "zen_payg": "按量付费 · {n} 个模型", "zen_note1": "额度余额只能在网页看",
-        "zen_note2": "OpenCode 没有公开的余额接口，", "zen_note3": "API key 读不到这一项。",
+        "zen_payg": "按量付费 · {n} 个模型",
         "no_reading": "还没读到用量", "reason": "原因：{why}",
         "http_auth": "API key 无效或无权访问", "net_down": "网络不通",
         "bad_shape": "接口返回的结构变了", "no_key": "还没有配置 Key",
@@ -216,13 +209,12 @@ STRINGS = {
     },
     "zh-Hant": {
         "win_rolling": "5 小時", "win_weekly": "本週", "win_monthly": "本月",
-        "renews": "續費 {date} · ≈${limits}", "cap": "上限 ≈${limits}",
+        "renews": "續費 {date}",
         "resets": "{eta}後重置", "pace_ahead": "進度偏快",
         "stale": "讀取失敗，下面是 {age}前的資料", "stale_generic": "讀取失敗，下面是上次的資料",
         "notify_title": "OpenCode · {window}", "notify_body": "已用 {pct}%，{eta}後重置",
         "notify_body_short": "已用 {pct}%",
-        "zen_payg": "按量付費 · {n} 個模型", "zen_note1": "額度餘額只能在網頁看",
-        "zen_note2": "OpenCode 沒有公開的餘額介面，", "zen_note3": "API key 讀不到這一項。",
+        "zen_payg": "按量付費 · {n} 個模型",
         "no_reading": "還沒讀到用量", "reason": "原因：{why}",
         "http_auth": "API key 無效或無權存取", "net_down": "網路不通",
         "bad_shape": "介面回傳的結構變了", "no_key": "還沒有設定 Key",
@@ -241,15 +233,13 @@ STRINGS = {
     },
     "en": {
         "win_rolling": "Rolling", "win_weekly": "Weekly", "win_monthly": "Monthly",
-        "renews": "Renews {date} · ≈${limits}", "cap": "Cap ≈${limits}",
+        "renews": "Renews {date}",
         "resets": "resets in {eta}", "pace_ahead": "ahead of pace",
         "stale": "Read failed — showing data from {age} ago",
         "stale_generic": "Read failed — showing the last reading",
         "notify_title": "OpenCode · {window}", "notify_body": "At {pct}%, resets in {eta}",
         "notify_body_short": "At {pct}%",
-        "zen_payg": "Pay as you go · {n} models", "zen_note1": "Credit balance is web-only",
-        "zen_note2": "OpenCode exposes no public balance endpoint,",
-        "zen_note3": "so an API key can't read it.",
+        "zen_payg": "Pay as you go · {n} models",
         "no_reading": "No usage read yet", "reason": "Reason: {why}",
         "http_auth": "API key rejected", "net_down": "Network unreachable",
         "bad_shape": "Unexpected response shape", "no_key": "No API key yet",
@@ -268,14 +258,12 @@ STRINGS = {
     },
     "ja": {
         "win_rolling": "5時間", "win_weekly": "今週", "win_monthly": "今月",
-        "renews": "更新 {date} · ≈${limits}", "cap": "上限 ≈${limits}",
+        "renews": "更新 {date}",
         "resets": "{eta}後にリセット", "pace_ahead": "ペース超過",
         "stale": "取得失敗 — {age}前のデータ", "stale_generic": "取得失敗 — 前回のデータ",
         "notify_title": "OpenCode · {window}", "notify_body": "{pct}% 使用、{eta}後にリセット",
         "notify_body_short": "{pct}% 使用",
-        "zen_payg": "従量課金 · モデル {n} 個", "zen_note1": "残高は Web でのみ確認できます",
-        "zen_note2": "OpenCode は残高 API を公開していないため、",
-        "zen_note3": "API キーでは取得できません。",
+        "zen_payg": "従量課金 · モデル {n} 個",
         "no_reading": "使用量をまだ取得できていません", "reason": "理由：{why}",
         "http_auth": "API キーが拒否されました", "net_down": "ネットワークに接続できません",
         "bad_shape": "レスポンスの形式が変わりました", "no_key": "API キーが未設定です",
@@ -294,14 +282,12 @@ STRINGS = {
     },
     "ko": {
         "win_rolling": "5시간", "win_weekly": "이번 주", "win_monthly": "이번 달",
-        "renews": "갱신 {date} · ≈${limits}", "cap": "상한 ≈${limits}",
+        "renews": "갱신 {date}",
         "resets": "{eta} 후 초기화", "pace_ahead": "예상보다 빠름",
         "stale": "읽기 실패 — {age} 전 데이터", "stale_generic": "읽기 실패 — 마지막 데이터",
         "notify_title": "OpenCode · {window}", "notify_body": "{pct}% 사용, {eta} 후 초기화",
         "notify_body_short": "{pct}% 사용",
-        "zen_payg": "종량제 · 모델 {n}개", "zen_note1": "잔액은 웹에서만 볼 수 있습니다",
-        "zen_note2": "OpenCode 는 공개된 잔액 API 가 없어",
-        "zen_note3": "API 키로는 읽을 수 없습니다.",
+        "zen_payg": "종량제 · 모델 {n}개",
         "no_reading": "아직 사용량을 읽지 못했습니다", "reason": "이유: {why}",
         "http_auth": "API 키가 거부되었습니다", "net_down": "네트워크에 연결할 수 없습니다",
         "bad_shape": "응답 형식이 바뀌었습니다", "no_key": "API 키가 없습니다",
@@ -320,15 +306,13 @@ STRINGS = {
     },
     "es": {
         "win_rolling": "5 horas", "win_weekly": "Semana", "win_monthly": "Mes",
-        "renews": "Renueva {date} · ≈${limits}", "cap": "Límite ≈${limits}",
+        "renews": "Renueva {date}",
         "resets": "se reinicia en {eta}", "pace_ahead": "ritmo adelantado",
         "stale": "Fallo de lectura — datos de hace {age}",
         "stale_generic": "Fallo de lectura — última lectura",
         "notify_title": "OpenCode · {window}", "notify_body": "Al {pct}%, se reinicia en {eta}",
         "notify_body_short": "Al {pct}%",
-        "zen_payg": "Pago por uso · {n} modelos", "zen_note1": "El saldo solo se ve en la web",
-        "zen_note2": "OpenCode no expone una API de saldo,",
-        "zen_note3": "así que una clave API no puede leerlo.",
+        "zen_payg": "Pago por uso · {n} modelos",
         "no_reading": "Aún sin datos de uso", "reason": "Motivo: {why}",
         "http_auth": "Clave API rechazada", "net_down": "Sin conexión de red",
         "bad_shape": "La respuesta cambió de formato", "no_key": "Sin clave API",
@@ -347,16 +331,13 @@ STRINGS = {
     },
     "fr": {
         "win_rolling": "5 heures", "win_weekly": "Semaine", "win_monthly": "Mois",
-        "renews": "Renouvellement {date} · ≈${limits}", "cap": "Plafond ≈${limits}",
+        "renews": "Renouvellement {date}",
         "resets": "réinit. dans {eta}", "pace_ahead": "rythme en avance",
         "stale": "Échec de lecture — données d'il y a {age}",
         "stale_generic": "Échec de lecture — dernière lecture",
         "notify_title": "OpenCode · {window}", "notify_body": "{pct}% utilisé, réinit. dans {eta}",
         "notify_body_short": "{pct}% utilisé",
         "zen_payg": "Paiement à l'usage · {n} modèles",
-        "zen_note1": "Le solde n'est visible que sur le web",
-        "zen_note2": "OpenCode n'expose pas d'API de solde,",
-        "zen_note3": "une clé API ne peut donc pas le lire.",
         "no_reading": "Aucune donnée de consommation", "reason": "Raison : {why}",
         "http_auth": "Clé API refusée", "net_down": "Réseau injoignable",
         "bad_shape": "La réponse a changé de format", "no_key": "Aucune clé API",
@@ -712,7 +693,7 @@ def fetch_go(key):
         return None, "", name
     usage = payload.get("usage") or {}
     rows, renews = [], ""
-    for k, limit_usd in WINDOWS:
+    for k in WINDOWS:
         w = usage.get(k) or {}
         pct = w.get("percent")
         if pct is None:
@@ -734,7 +715,7 @@ def fetch_go(key):
                     renews = fmt_date(dt)
             except Exception:
                 pass
-        rows.append((k, float(pct), limit_usd, eta, ahead, reset_iso))
+        rows.append((k, float(pct), None, eta, ahead, reset_iso))
     if not rows and usage:
         # 200 OK, a usage object came back, but none of the windows we know about are in
         # it: the endpoint's shape moved. That is an error, not an empty Go account —
@@ -821,13 +802,12 @@ def header(img, fallback):
 
 def render_go(rows, renews, has_pil, cfg, stale=""):
     values = [int(round(r[1])) for r in rows]
-    limits = " / $".join(str(int(r[2])) for r in rows)
 
     header(title_image(values) if has_pil else None, "\u2502".join(str(v) for v in values))
 
     print(f"OpenCode Go | size=13 color={TEXT}")
-    sub = t("renews", date=renews, limits=limits) if renews else t("cap", limits=limits)
-    print(f"{sub} | size=11 color={TEXT}")
+    if renews:
+        print(f"{t('renews', date=renews)} | size=11 color={TEXT}")
     if stale:
         print(f"{stale} | size=11 color={ALERT_TEXT}")
     print("---")
@@ -870,10 +850,6 @@ def render_zen(model_count, has_pil, cfg, stale=""):
         print(f"{t('zen_payg', n=model_count)} | size=11 color={MUTED}")
     if stale:
         print(f"{stale} | size=11 color={ALERT_TEXT}")
-    print("---")
-    print(f"{t('zen_note1')} | size=11 sfimage=creditcard")
-    print(f"{t('zen_note2')} | size=11 color={MUTED}")
-    print(f"{t('zen_note3')} | size=11 color={MUTED}")
     print("---")
     print(f"{t('open_zen')} | size=13 sfimage=arrow.up.right.square href={DASHBOARD_URL}")
     print(f"{t('refresh')} | size=13 sfimage=arrow.clockwise refresh=true")

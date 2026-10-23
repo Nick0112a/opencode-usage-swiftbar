@@ -66,9 +66,6 @@ cd opencode-usage-swiftbar
 
 ## ❓ FAQ
 
-- **Where do the dollar caps come from? 美元上限哪来的？**
-  The documented standard Go limits ($12 / $30 / $60); the API only returns percentages, and Go Plus differs — hence the ≈
-  官方文档的标准 Go 额度；接口只返回百分比，Go Plus 不同，所以写 ≈。
 - **No notification? 通知没弹？**
   macOS asks for permission the first time one fires 🔔
   第一次触发时系统会请求通知权限，允许即可。
@@ -79,8 +76,6 @@ cd opencode-usage-swiftbar
 
 - Built on two undocumented endpoints the web console uses; if their shape changes you'll see the cached reading and an explicit error, never a crash
   依赖网页控制台的两个未公开接口，结构变化时会显示缓存读数并明确报错，不会崩
-- The dollar caps are documentation values; the API only returns percentages
-  美元上限是文档标注值，接口只返回百分比
 - macOS only · 仅支持 macOS
 
 Before hacking on the plugin, read [DEVELOPMENT.md](DEVELOPMENT.md) — it documents the SwiftBar behaviours that are easy to walk back into.
