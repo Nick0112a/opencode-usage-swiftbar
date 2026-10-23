@@ -64,11 +64,8 @@ cd opencode-usage-swiftbar
 | 🌍 Language 语言 ▸ | Seven languages, applied instantly · 即点即换 |
 | 🎛️ Open dashboard / Refresh | Jump to the console / force a refresh · 打开后台 / 立即刷新 |
 
-## ❓ FAQ · 常见问题
+## ❓ FAQ
 
-- **Why can't I see my Zen balance? 为什么看不到 Zen 余额？**
-  OpenCode exposes no balance endpoint — it's web-console only 🌐
-  OpenCode 没有公开余额接口，只能去网页控制台看。
 - **Where do the dollar caps come from? 美元上限哪来的？**
   The documented standard Go limits ($12 / $30 / $60); the API only returns percentages, and Go Plus differs — hence the ≈
   官方文档的标准 Go 额度；接口只返回百分比，Go Plus 不同，所以写 ≈。
