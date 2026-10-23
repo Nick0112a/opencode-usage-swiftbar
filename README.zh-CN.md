@@ -2,6 +2,8 @@
 
 把 OpenCode 的额度放进 macOS 菜单栏：5 小时 / 本周 / 本月三档用量一目了然，快用完时还会主动提醒 ⏰
 
+![菜单栏里的样子](menubar.png)
+
 ![界面示意](screenshot.png)
 
 [English](README.md)
