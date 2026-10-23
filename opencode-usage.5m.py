@@ -2,7 +2,7 @@
 # <xbar.title>OpenCode Usage</xbar.title>
 # <xbar.desc>Menu bar quota widget for OpenCode: shows the Go plan (5h / weekly / monthly) as a segmented meter, or detects a Zen pay-as-you-go account. Seven languages, multiple named keys, low-usage notification; everything is set from the menu.</xbar.desc>
 # <xbar.author>luyi</xbar.author>
-# <xbar.version>2.5.1</xbar.version>
+# <xbar.version>2.5.2</xbar.version>
 # <xbar.dependencies>python3,Pillow</xbar.dependencies>
 # <swiftbar.hideAbout>true</swiftbar.hideAbout>
 # <swiftbar.hideRunInTerminal>true</swiftbar.hideRunInTerminal>
@@ -185,7 +185,7 @@ def ensure_pil():
 STRINGS = {
     "zh": {
         "win_rolling": "5 小时", "win_weekly": "本周", "win_monthly": "本月",
-        "renews": "续费 {date}",
+        "renews": "月度窗口重置：{date}",
         "resets": "{eta}后重置", "pace_ahead": "进度偏快",
         "stale": "读取失败，下面是 {age}前的数据", "stale_generic": "读取失败，下面是上次的数据",
         "notify_title": "OpenCode · {window}", "notify_body": "已用 {pct}%，{eta}后重置",
@@ -209,7 +209,7 @@ STRINGS = {
     },
     "zh-Hant": {
         "win_rolling": "5 小時", "win_weekly": "本週", "win_monthly": "本月",
-        "renews": "續費 {date}",
+        "renews": "月度視窗重置：{date}",
         "resets": "{eta}後重置", "pace_ahead": "進度偏快",
         "stale": "讀取失敗，下面是 {age}前的資料", "stale_generic": "讀取失敗，下面是上次的資料",
         "notify_title": "OpenCode · {window}", "notify_body": "已用 {pct}%，{eta}後重置",
@@ -233,7 +233,7 @@ STRINGS = {
     },
     "en": {
         "win_rolling": "Rolling", "win_weekly": "Weekly", "win_monthly": "Monthly",
-        "renews": "Renews {date}",
+        "renews": "Monthly window resets {date}",
         "resets": "resets in {eta}", "pace_ahead": "ahead of pace",
         "stale": "Read failed — showing data from {age} ago",
         "stale_generic": "Read failed — showing the last reading",
@@ -258,7 +258,7 @@ STRINGS = {
     },
     "ja": {
         "win_rolling": "5時間", "win_weekly": "今週", "win_monthly": "今月",
-        "renews": "更新 {date}",
+        "renews": "月間リセット：{date}",
         "resets": "{eta}後にリセット", "pace_ahead": "ペース超過",
         "stale": "取得失敗 — {age}前のデータ", "stale_generic": "取得失敗 — 前回のデータ",
         "notify_title": "OpenCode · {window}", "notify_body": "{pct}% 使用、{eta}後にリセット",
@@ -282,7 +282,7 @@ STRINGS = {
     },
     "ko": {
         "win_rolling": "5시간", "win_weekly": "이번 주", "win_monthly": "이번 달",
-        "renews": "갱신 {date}",
+        "renews": "월간 초기화: {date}",
         "resets": "{eta} 후 초기화", "pace_ahead": "예상보다 빠름",
         "stale": "읽기 실패 — {age} 전 데이터", "stale_generic": "읽기 실패 — 마지막 데이터",
         "notify_title": "OpenCode · {window}", "notify_body": "{pct}% 사용, {eta} 후 초기화",
@@ -306,7 +306,7 @@ STRINGS = {
     },
     "es": {
         "win_rolling": "5 horas", "win_weekly": "Semana", "win_monthly": "Mes",
-        "renews": "Renueva {date}",
+        "renews": "Reinicio mensual: {date}",
         "resets": "se reinicia en {eta}", "pace_ahead": "ritmo adelantado",
         "stale": "Fallo de lectura — datos de hace {age}",
         "stale_generic": "Fallo de lectura — última lectura",
@@ -331,7 +331,7 @@ STRINGS = {
     },
     "fr": {
         "win_rolling": "5 heures", "win_weekly": "Semaine", "win_monthly": "Mois",
-        "renews": "Renouvellement {date}",
+        "renews": "Réinitialisation mensuelle : {date}",
         "resets": "réinit. dans {eta}", "pace_ahead": "rythme en avance",
         "stale": "Échec de lecture — données d'il y a {age}",
         "stale_generic": "Échec de lecture — dernière lecture",
